@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Game Simples</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+    <div class="container mt-4">
+        <h3 class="text-center mb-4">Joguinho da Escolha Certa</h3>
+
+        <form id="gameForm">
+            <div class="card mb-3 p-3 border-primary border-2">
+                <p><strong>Pergunta 1:</strong> Qual desses animais voa?</p>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p1" value="errado"> Cachorro</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p1" value="errado"> Gato</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p1" value="certo"> Pássaro</div>
+            </div>
+
+            <div class="card mb-3 p-3 border-primary border-2">
+                <p><strong>Pergunta 2:</strong> Qual fruta é amarela?</p>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p2" value="errado"> Maçã</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p2" value="certo"> Banana</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p2" value="errado"> Uva</div>
+            </div>
+
+            <div class="card mb-3 p-3 border-primary border-2">
+                <p><strong>Pergunta 3:</strong> Quanto é 2 + 2?</p>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p3" value="errado"> 3</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p3" value="certo"> 4</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p3" value="errado"> 5</div>
+            </div>
+
+            <div class="card mb-3 p-3 border-primary border-2">
+                <p><strong>Pergunta 4:</strong> Qual desses é um meio de transporte?</p>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p4" value="errado"> Cadeira</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p4" value="certo"> Carro</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p4" value="errado"> Estojo</div>
+            </div>
+
+            <div class="card mb-3 p-3 border-primary border-2">
+                <p><strong>Pergunta 5:</strong> Qual desses é um objeto de cozinha?</p>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p5" value="certo"> Prato</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p5" value="errado"> Sapato</div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="p5" value="errado"> Bola</div>
+            </div>
+
+            <div class="card mb-3 p-3 border-success border-2">
+                <p><strong>Pergunta 6 (checkbox):</strong> Quais desses são cores?</p>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="p6" value="certo"> Azul</div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="p6" value="certo"> Vermelho</div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="p6" value="errado"> Mesa</div>
+            </div>
+
+            <div class="card mb-3 p-3 border-warning border-2">
+                <p><strong>Pergunta 7 (select):</strong> Qual desses meses é do verão?</p>
+                <select class="form-select" id="p7">
+                    <option value="">Selecione</option>
+                    <option value="errado">Maio</option>
+                    <option value="certo">Janeiro</option>
+                    <option value="errado">Agosto</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary w-100" onclick="verificar()">Enviar</button>
+        </form>
+
+        <div id="resultado" class="mt-4 fw-bold text-center fs-4"></div>
+    </div>
+
+    <script>
+        function verificar() {
+            let corretas = 0;
+
+            // Verifica radios (p1 a p5)
+            for (let i = 1; i <= 5; i++) {
+                const escolha = document.querySelector(`input[name=p${i}]:checked`);
+                if (escolha && escolha.value === 'certo') corretas++;
+            }
+
+            // Verifica checkboxes (p6)
+            const checks = document.querySelectorAll('input[name=p6]:checked');
+            let pontosCheck = 0;
+            checks.forEach(c => c.value === 'certo' ? pontosCheck++ : pontosCheck--);
+            if (pontosCheck === 2) corretas++; // só acerta se marcar só as duas cores
+
+            // Verifica select (p7)
+            const sel = document.getElementById('p7');
+            if (sel.value === 'certo') corretas++;
+
+            const resultado = document.getElementById('resultado');
+            resultado.textContent = `Você acertou ${corretas} de 7 perguntas.`;
+            resultado.className = "fw-bold text-center fs-4 " + (corretas >= 4 ? "text-success" : "text-danger");
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
